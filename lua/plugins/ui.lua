@@ -1,4 +1,63 @@
 return {
+  -- messages, cmdline and the popupmenu
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
+
+    opts = function(_, opts)
+      table.insert(opts.routes, {
+        filter = {
+          event = "notify",
+          find = "No information available",
+        },
+        opts = { skip = true },
+      })
+      local focused = true
+      vim.api.nvim_create_autocmd("FocusGained", {
+        callback = function()
+          focused = true
+        end,
+      })
+      vim.api.nvim_create_autocmd("FocusLost", {
+        callback = function()
+          focused = false
+        end,
+      })
+      table.insert(opts.routes, 1, {
+        filter = {
+          cond = function()
+            return not focused
+          end,
+        },
+        view = "notify_send",
+        opts = { stop = false },
+      })
+
+      opts.commands = {
+        all = {
+          -- options for the message history that you get with `:Noice`
+          view = "split",
+          opts = { enter = true, format = "details" },
+          filter = {},
+        },
+      }
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        callback = function(event)
+          vim.schedule(function()
+            require("noice.text.markdown").keys(event.buf)
+          end)
+        end,
+      })
+
+      opts.presets.lsp_doc_border = true
+    end,
+  },
   -- Status-line
   {
     "nvim-lualine/lualine.nvim",
@@ -18,68 +77,6 @@ return {
     end,
   },
   -- filename
-  -- {
-  --   "b0o/incline.nvim",
-  --   event = "BufReadPre",
-  --   priority = 1200,
-  --   config = function()
-  --     local devicons = require("nvim-web-devicons")
-  --     require("incline").setup({
-  --       render = function(props)
-  --         local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
-  --         if filename == "" then
-  --           filename = "[No Name]"
-  --         end
-  --         local ft_icon, ft_color = devicons.get_icon_color(filename)
-  --
-  --         local function get_git_diff()
-  --           local icons = { removed = "", changed = "", added = "" }
-  --           local signs = vim.b[props.buf].gitsigns_status_dict
-  --           local labels = {}
-  --           if signs == nil then
-  --             return labels
-  --           end
-  --           for name, icon in pairs(icons) do
-  --             if tonumber(signs[name]) and signs[name] > 0 then
-  --               table.insert(labels, { icon .. signs[name] .. " ", group = "Diff" .. name })
-  --             end
-  --           end
-  --           if #labels > 0 then
-  --             table.insert(labels, { "┊ " })
-  --           end
-  --           return labels
-  --         end
-  --         local function get_diagnostic_label()
-  --           local icons = { error = "", warn = "", info = "", hint = "" }
-  --           local label = {}
-  --
-  --           for severity, icon in pairs(icons) do
-  --             local n = #vim.diagnostic.get(props.buf, { severity = vim.diagnostic.severity[string.upper(severity)] })
-  --             if n > 0 then
-  --               table.insert(label, { icon .. n .. " ", group = "DiagnosticSign" .. severity })
-  --             end
-  --           end
-  --           if #label > 0 then
-  --             table.insert(label, { "┊ " })
-  --           end
-  --           return label
-  --         end
-  --
-  --         return {
-  --           { get_diagnostic_label() },
-  --           { get_git_diff() },
-  --           { (ft_icon or "") .. " ", guifg = ft_color, guibg = "none" },
-  --           { filename .. " ", gui = vim.bo[props.buf].modified and "bold,italic" or "bold" },
-  --           { "┊  " .. vim.api.nvim_win_get_number(props.win), group = "DevIconWindows" },
-  --         }
-  --       end,
-  --     })
-  --   end,
-  --   dependencies = {
-  --     "nvim-tree/nvim-web-devicons", -- nếu bạn chưa có plugin này
-  --     "lewis6991/gitsigns.nvim", -- cho tính năng git diff
-  --   },
-  -- },
   {
     "b0o/incline.nvim",
     dependencies = { "craftzdog/solarized-osaka.nvim", "nvim-tree/nvim-web-devicons", "lewis6991/gitsigns.nvim" },
@@ -109,6 +106,188 @@ return {
         end,
       })
     end,
+  },
+  --Zenmode
+  {
+    "folke/zen-mode.nvim",
+    cmd = "ZenMode",
+    opts = {
+      plugins = {
+        gitsigns = true,
+        tmux = true,
+        kitty = { enabled = false, font = "+2" },
+      },
+    },
+    keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
+  },
+  --Notify
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      timeout = 5000,
+    },
+  },
+  -- animations
+  {
+    "echasnovski/mini.animate",
+    event = "VeryLazy",
+    opts = function(_, opts)
+      opts.scroll = {
+        enable = false,
+      }
+    end,
+  },
+  -- buffer-line
+  {
+    "akinsho/bufferline.nvim",
+    event = "VeryLazy",
+    opts = {
+      options = {
+        -- mode = "tabs",
+        separator_style = "thick",
+        show_buffer_close_icons = true,
+        show_close_icon = true,
+      },
+    },
+  },
+  -- Visualize and operate on indent scope
+  {
+    "echasnovski/mini.indentscope",
+    event = "LazyFile",
+    opts = function(_, opts)
+      -- opts.symbol = "╎"
+      opts.symbol = "│" -- ▏│
+      opts.options = { try_as_border = true }
+      opts.draw = {
+        delay = 0,
+        animation = require("mini.indentscope").gen_animation.none(),
+      }
+    end,
+    init = function()
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = {
+          "alpha",
+          "dashboard",
+          "fzf",
+          "help",
+          "lazy",
+          "lazyterm",
+          "man",
+          "mason",
+          "neo-tree",
+          "notify",
+          "Outline",
+          "toggleterm",
+          "Trouble",
+          "trouble",
+        },
+        callback = function()
+          vim.b["miniindentscope_disable"] = true
+        end,
+      })
+    end,
+  },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    -- enabled = false,
+    dependencies = {
+      "nmac427/guess-indent.nvim",
+      "HiPhish/rainbow-delimiters.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+
+    main = "ibl",
+    event = "LazyFile",
+    opts = function()
+      LazyVim.toggle.map("<leader>ue", {
+        name = "Indention Guides",
+        get = function()
+          return require("ibl.config").get_config(0).enabled
+        end,
+        set = function(state)
+          require("ibl").setup_buffer(0, { enabled = state })
+        end,
+      })
+      local highlight = {
+        "RainbowRed",
+        "RainbowYellow",
+        "RainbowBlue",
+        "RainbowOrange",
+        "RainbowGreen",
+        "RainbowViolet",
+        "RainbowCyan",
+        "CursorColumn",
+        "Whitespace",
+      }
+
+      local hooks = require("ibl.hooks")
+
+      -- Tạo nhóm highlight
+      hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+        vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#E06C75" })
+        vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#E5C07B" })
+        vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#61AFEF" })
+        vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D19A66" })
+        vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#98C379" })
+        vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#C678DD" })
+        vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+      end)
+      return {
+        indent = {
+          char = "│", -- ▏│
+          tab_char = "│",
+          -- char = "┊",
+          -- tab_char = "┊",
+          smart_indent_cap = true,
+          -- highlight = highlight,
+          -- char = "",
+        },
+        whitespace = {
+          remove_blankline_trail = false,
+          -- highlight = highlight,
+        },
+
+        scope = { show_exact_scope = true, highlight = highlight, show_start = true, show_end = false, enabled = true },
+        exclude = {
+          filetypes = {
+            "alpha",
+            "checkhealth",
+            "dashboard",
+            "git",
+            "gitcommit",
+            "help",
+            "lazy",
+            "lazyterm",
+            "lspinfo",
+            "man",
+            "mason",
+            "neo-tree",
+            "notify",
+            "Outline",
+            "TelescopePrompt",
+            "TelescopeResults",
+            "terminal",
+            "toggleterm",
+            "Trouble",
+          },
+        },
+      }
+    end,
+  },
+  --cursorline
+  {
+    "yamatsum/nvim-cursorline",
+    enabled = false,
+    opts = {
+      cursorword = {
+        enable = true,
+        min_length = 3,
+        hl = { underline = true },
+      },
+      cursorline = {
+        enable = true,
+      },
+    },
   },
   --dashboard-nvim
   {
