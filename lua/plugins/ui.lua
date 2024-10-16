@@ -1,3 +1,4 @@
+local preset = require("noice.config.preset")
 return {
   -- messages, cmdline and the popupmenu
   {
@@ -7,7 +8,6 @@ return {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
     },
-
     opts = function(_, opts)
       table.insert(opts.routes, {
         filter = {
@@ -55,8 +55,25 @@ return {
         end,
       })
 
-      opts.presets.lsp_doc_border = true
+      -- Tùy chỉnh thông báo cho Lazy.nvim
+      opts.routes = vim.list_extend(opts.routes or {}, {
+        {
+          filter = {
+            event = "msg_show",
+            kind = "",
+            find = "Lazy",
+          },
+          opts = { skip = true },
+        },
+      })
     end,
+  },
+  --Notify
+  {
+    "rcarriga/nvim-notify",
+    opts = {
+      timeout = 5000,
+    },
   },
   -- Status-line
   {
@@ -76,10 +93,20 @@ return {
       }
     end,
   },
+  --Dressing-nvim
+  -- {
+  --   "stevearc/dressing.nvim",
+  --   opts = function() end,
+  -- },
+
   -- filename
   {
     "b0o/incline.nvim",
-    dependencies = { "craftzdog/solarized-osaka.nvim", "nvim-tree/nvim-web-devicons", "lewis6991/gitsigns.nvim" },
+    dependencies = {
+      "craftzdog/solarized-osaka.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "lewis6991/gitsigns.nvim",
+    },
     event = "BufReadPre",
     priority = 1200,
     config = function()
@@ -91,7 +118,9 @@ return {
             InclineNormalNC = { guifg = colors.violet500, guibg = colors.base03 },
           },
         },
-        window = { margin = { vertical = 0, horizontal = 1 } },
+        window = {
+          margin = { vertical = 0, horizontal = 0 },
+        },
         hide = {
           cursorline = false,
         },
@@ -102,7 +131,11 @@ return {
           end
 
           local icon, color = require("nvim-web-devicons").get_icon_color(filename)
-          return { { icon, guifg = color }, { " " }, { filename } }
+          return {
+            { icon, guifg = color },
+            { " " },
+            { filename },
+          }
         end,
       })
     end,
@@ -120,13 +153,6 @@ return {
     },
     keys = { { "<leader>z", "<cmd>ZenMode<cr>", desc = "Zen Mode" } },
   },
-  --Notify
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 5000,
-    },
-  },
   -- animations
   {
     "echasnovski/mini.animate",
@@ -143,7 +169,7 @@ return {
     event = "VeryLazy",
     opts = {
       options = {
-        -- mode = "tabs",
+        mode = "tabs",
         separator_style = "thick",
         show_buffer_close_icons = true,
         show_close_icon = true,

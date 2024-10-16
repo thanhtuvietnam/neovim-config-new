@@ -25,8 +25,22 @@ require("lazy").setup({
         -- colorscheme = "habamax",
       },
     },
+    -- { import = "lazyvim.plugins.extras.coding.luasnip" },
     -- import/override with your plugins
     { import = "plugins" },
+  },
+  ui = {
+    border = "rounded", -- Đặt kiểu đường viền cho khung
+    icons = {
+      plugin = "🔌", -- Biểu tượng cho plugin
+      start = "🚀", -- Biểu tượng cho khởi động
+      event = "📅", -- Biểu tượng cho sự kiện
+      config = "⚙️", -- Biểu tượng cho cấu hình
+      update = "⬆️", -- Biểu tượng cho cập nhật
+      error = "❌", -- Biểu tượng cho lỗi
+      warning = "⚠️", -- Biểu tượng cho cảnh báo
+      info = "ℹ️", -- Biểu tượng cho thông tin
+    },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
