@@ -45,6 +45,11 @@ return {
           filter = {},
         },
       }
+      -- Tắt tính năng hover và signature help
+      opts.lsp = {
+        hover = { enabled = false },
+        signature = { enabled = false },
+      }
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "markdown",
@@ -111,6 +116,7 @@ return {
     priority = 1200,
     config = function()
       local colors = require("solarized-osaka.colors").setup()
+      -- local colors = require("tokyonight.colors.storm").setup()
       require("incline").setup({
         highlight = {
           groups = {
