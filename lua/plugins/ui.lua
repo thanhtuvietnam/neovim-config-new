@@ -77,7 +77,7 @@ return {
   {
     "rcarriga/nvim-notify",
     opts = {
-      timeout = 5000,
+      timeout = 1000,
     },
   },
   -- Status-line
@@ -107,6 +107,8 @@ return {
   -- filename
   {
     "b0o/incline.nvim",
+    enabled = false,
+
     dependencies = {
       "craftzdog/solarized-osaka.nvim",
       "nvim-tree/nvim-web-devicons",

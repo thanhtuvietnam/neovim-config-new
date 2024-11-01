@@ -70,6 +70,15 @@ return {
       -- Tailwind CSS
       lspconfig.tailwindcss.setup({
         capabilities = capabilities,
+        settings = {
+          tailwindCsSS = {
+            experimental = {
+              classRegex = {
+                { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
+              },
+            },
+          },
+        },
         filetypes = {
           "templ",
           "html",
