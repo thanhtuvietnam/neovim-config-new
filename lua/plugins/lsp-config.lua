@@ -11,7 +11,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = {
           --old
-          "tsserver",
+          -- "tsserver",
           "eslint",
           "html",
           "cssls",
@@ -24,7 +24,7 @@ return {
           "shellcheck",
           "shfmt",
           "tailwindcss-language-server",
-          "typescript-language-server",
+          -- "typescript-language-server",
           "css-lsp",
         },
         automatic_installation = true,
@@ -34,14 +34,14 @@ return {
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       -- TypeScript/JavaScript
-      lspconfig.tsserver.setup({
-        capabilities = capabilities,
-        init_options = {
-          preferences = {
-            disableSuggestions = false,
-          },
-        },
-      })
+      -- lspconfig.tsserver.setup({
+      --   capabilities = capabilities,
+      --   init_options = {
+      --     preferences = {
+      --       disableSuggestions = false,
+      --     },
+      --   },
+      -- })
       -- ESLint
       lspconfig.eslint.setup({
         capabilities = capabilities,
@@ -158,7 +158,7 @@ return {
 
       -- Thiết lập handler cho signature help
       vim.lsp.handlers["textDocument/signatureHelp"] =
-        vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+          vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
       ---@class PluginLspOpts
       local ret = {
         -- options for vim.diagnostic.config()
@@ -304,9 +304,9 @@ return {
         if opts.inlay_hints.enabled then
           LazyVim.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
             if
-              vim.api.nvim_buf_is_valid(buffer)
-              and vim.bo[buffer].buftype == ""
-              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+                vim.api.nvim_buf_is_valid(buffer)
+                and vim.bo[buffer].buftype == ""
+                and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
             then
               vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
             end
@@ -327,14 +327,14 @@ return {
 
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
         opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-          or function(diagnostic)
-            local icons = LazyVim.config.icons.diagnostics
-            for d, icon in pairs(icons) do
-              if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                return icon
+            or function(diagnostic)
+              local icons = LazyVim.config.icons.diagnostics
+              for d, icon in pairs(icons) do
+                if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                  return icon
+                end
               end
             end
-          end
       end
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))

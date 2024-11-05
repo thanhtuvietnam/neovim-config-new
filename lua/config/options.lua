@@ -10,7 +10,7 @@ opt.cmdheight = 1
 opt.laststatus = 3
 opt.expandtab = true
 opt.scrolloff = 10
-opt.shell = "/bin/zsh"
+opt.shell = "/usr/bin/zsh"
 opt.backupskip = { "/tmp/*", "/private/tmp/*" }
 opt.inccommand = "split"
 opt.ignorecase = true -- Case insensitive searching UNLESS /C or capital in search
@@ -23,8 +23,8 @@ opt.wrap = true
 opt.backspace = { "start", "eol", "indent" }
 opt.path:append({ "**" }) -- Finding files - Search down into subfolders
 opt.wildignore:append({ "*/node_modules/*" })
-opt.splitbelow = true -- Put new windows below current
-opt.splitright = true -- Put new windows right of current
+opt.splitbelow = true     -- Put new windows below current
+opt.splitright = true     -- Put new windows right of current
 opt.splitkeep = "cursor"
 opt.relativenumber = false
 
@@ -33,9 +33,9 @@ vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Terminal
-vim.cmd([[  
-  autocmd TermOpen * setlocal winblend=20  
-  " autocmd TermOpen * setlocal winhighlight=Normal:NormalNC  
+vim.cmd([[
+  autocmd TermOpen * setlocal winblend=20
+  " autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
 ]])
 
 -- Add asterisks in block comments
