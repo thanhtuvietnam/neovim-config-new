@@ -33,10 +33,10 @@ vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Terminal
-vim.cmd([[
-  autocmd TermOpen * setlocal winblend=20
-  " autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
-]])
+-- vim.cmd([[
+--   autocmd TermOpen * setlocal winblend=20
+--   " autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
+-- ]])
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append({ "r" })
@@ -58,7 +58,6 @@ vim.api.nvim_set_hl(0, "CmpItemKindMethod", { fg = "#C586C0", bg = "NONE" })
 vim.api.nvim_set_hl(0, "CmpItemKindKeyword", { fg = "#D4D4D4", bg = "NONE" })
 vim.api.nvim_set_hl(0, "CmpItemKindProperty", { fg = "#D4D4D4", bg = "NONE" })
 vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#D4D4D4", bg = "NONE" })
-
 --diagnostic
 
 -- vim.o.completeopt = "menuone,noinsert,noselect"

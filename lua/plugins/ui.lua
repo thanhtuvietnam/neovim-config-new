@@ -6,7 +6,7 @@ return {
     event = "VeryLazy",
     dependencies = {
       "MunifTanjim/nui.nvim",
-      "rcarriga/nvim-notify",
+      -- "rcarriga/nvim-notify",
     },
     opts = function(_, opts)
       table.insert(opts.routes, {
@@ -74,12 +74,12 @@ return {
     end,
   },
   --Notify
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 1000,
-    },
-  },
+  -- {
+  --   "rcarriga/nvim-notify",
+  --   opts = {
+  --     timeout = 1000,
+  --   },
+  -- },
   -- Status-line
   {
     "nvim-lualine/lualine.nvim",
@@ -140,7 +140,7 @@ return {
 
           local icon, color = require("nvim-web-devicons").get_icon_color(filename)
           return {
-            { icon, guifg = color },
+            { icon,    guifg = color },
             { " " },
             { filename },
           }
@@ -233,15 +233,15 @@ return {
     main = "ibl",
     event = "LazyFile",
     opts = function()
-      LazyVim.toggle.map("<leader>ue", {
-        name = "Indention Guides",
-        get = function()
-          return require("ibl.config").get_config(0).enabled
-        end,
-        set = function(state)
-          require("ibl").setup_buffer(0, { enabled = state })
-        end,
-      })
+      -- lazyvim.toggle.map("<leader>ue", {
+      --   name = "Indention Guides",
+      --   get = function()
+      --     return require("ibl.config").get_config(0).enabled
+      --   end,
+      --   set = function(state)
+      --     require("ibl").setup_buffer(0, { enabled = state })
+      --   end,
+      -- })
       local highlight = {
         "RainbowRed",
         "RainbowYellow",
@@ -329,16 +329,16 @@ return {
     event = "VimEnter",
     opts = function(_, opts)
       local logo = [[
- _____                                                                          _____ 
+ _____                                                                          _____
 ( ___ )------------------------------------------------------------------------( ___ )
- |   |                                                                          |   | 
- |   | ████████╗██╗   ██╗██╗     ███████╗██████╗     ██╗     ██╗   ██╗██╗   ██╗ |   | 
- |   | ╚══██╔══╝╚██╗ ██╔╝██║     ██╔════╝██╔══██╗    ██║     ██║   ██║██║   ██║ |   | 
- |   |    ██║    ╚████╔╝ ██║     █████╗  ██████╔╝    ██║     ██║   ██║██║   ██║ |   | 
- |   |    ██║     ╚██╔╝  ██║     ██╔══╝  ██╔══██╗    ██║     ██║   ██║██║   ██║ |   | 
- |   |    ██║      ██║   ███████╗███████╗██║  ██║    ███████╗╚██████╔╝╚██████╔╝ |   | 
- |   |    ╚═╝      ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝    ╚══════╝ ╚═════╝  ╚═════╝  |   | 
- |___|                                                                          |___| 
+ |   |                                                                          |   |
+ |   | ████████╗██╗   ██╗██╗     ███████╗██████╗     ██╗     ██╗   ██╗██╗   ██╗ |   |
+ |   | ╚══██╔══╝╚██╗ ██╔╝██║     ██╔════╝██╔══██╗    ██║     ██║   ██║██║   ██║ |   |
+ |   |    ██║    ╚████╔╝ ██║     █████╗  ██████╔╝    ██║     ██║   ██║██║   ██║ |   |
+ |   |    ██║     ╚██╔╝  ██║     ██╔══╝  ██╔══██╗    ██║     ██║   ██║██║   ██║ |   |
+ |   |    ██║      ██║   ███████╗███████╗██║  ██║    ███████╗╚██████╔╝╚██████╔╝ |   |
+ |   |    ╚═╝      ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝    ╚══════╝ ╚═════╝  ╚═════╝  |   |
+ |___|                                                                          |___|
 (_____)------------------------------------------------------------------------(_____)
 ]]
 

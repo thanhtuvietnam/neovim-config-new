@@ -12,14 +12,14 @@ return {
         shading_factor = 2,
         start_in_insert = true,
         persist_size = true,
-        direction = "horizontal", -- You can also use 'vertical', 'tab', or 'float'
+        direction = "float", -- You can also use 'vertical', 'tab', or 'float'
         close_on_exit = true,
         shell = vim.o.shell,
         float_opts = {
           border = "curved",
           winblend = 0,
           highlights = {
-            border = "Normal",
+            border = "black",
             background = "Normal",
           },
         },

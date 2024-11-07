@@ -11,7 +11,7 @@ return {
       "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind.nvim",
       "mlaursen/vim-react-snippets",
-      "zbirenbaum/copilot-cmp", -- Add copilot-cmp
+      "zbirenbaum/copilot-cmp",
     },
     opts = function()
       require("vim-react-snippets").lazy_load()
@@ -31,11 +31,7 @@ return {
           end,
         },
         formatting = {
-          fields = {
-            "abbr",
-            "kind",
-            "menu",
-          },
+          fields = { "abbr", "kind", "menu" },
           expandable_indicator = true,
           format = lspkind.cmp_format({
             mode = "symbol_text",
@@ -98,9 +94,7 @@ return {
   -- LuaSnip
   {
     "L3MON4D3/LuaSnip",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-    },
+    dependencies = { "rafamadriz/friendly-snippets" },
     config = function()
       require("luasnip.loaders.from_vscode").lazy_load()
       local luasnip = require("luasnip")

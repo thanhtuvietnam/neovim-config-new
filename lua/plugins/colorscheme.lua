@@ -1,19 +1,15 @@
-return {
+local colorschemes = {
   {
     "craftzdog/solarized-osaka.nvim",
     lazy = true,
     priority = 1000,
-    opts = function()
-      return {
-        -- transparent = true,
-        transparent = false,
-      }
-    end,
+    opts = {
+      transparent = false,
+    },
   },
   {
     "folke/tokyonight.nvim",
     opts = {
-      -- transparent = true,
       transparent = false,
       styles = {
         sidebars = "transparent",
@@ -23,12 +19,18 @@ return {
   },
   {
     "tiagovla/tokyodark.nvim",
-    opts = {
-      -- custom options here
-    },
+    opts = {},
     config = function(_, opts)
-      require("tokyodark").setup(opts) -- calling setup is optional
+      require("tokyodark").setup(opts)
       vim.cmd([[colorscheme tokyodark]])
     end,
   },
+  {
+    "bluz71/vim-moonfly-colors",
+    name = "moonfly",
+    lazy = false,
+    priority = 1000,
+  },
 }
+
+return colorschemes

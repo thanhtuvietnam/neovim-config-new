@@ -1,51 +1,54 @@
-local keymap = vim.keymap
+local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 --Do things without affecting the register
-keymap.set("n", "x", '"_x')
-keymap.set("n", "<Leader>p", '"0p')
-keymap.set("n", "<Leader>P", '"0P')
-keymap.set("v", "<Leader>p", '"0p')
-keymap.set("n", "<Leader>c", '"_c')
-keymap.set("n", "<Leader>C", '"_C')
-keymap.set("v", "<Leader>c", '"_c')
-keymap.set("v", "<Leader>C", '"_C')
-keymap.set("n", "<Leader>d", '"_d')
-keymap.set("n", "<Leader>D", '"_D')
-keymap.set("v", "<Leader>d", '"_d')
-keymap.set("v", "<Leader>D", '"_D')
+keymap("n", "x", '"_x', opts)
+local leader_mappings = {
+  p = '"0p',
+  P = '"0P',
+  c = '"_c',
+  C = '"_C',
+  d = '"_d',
+  D = '"_D',
+}
+for key, cmd in pairs(leader_mappings) do
+  keymap({ "n", "v" }, "<Leader>" .. key, cmd, opts)
+end
+
 --Increment/decrement
-keymap.set("n", "+", "<C-a>")
-keymap.set("n", "-", "<C-x>")
+keymap("n", "+", "<C-a>")
+keymap("n", "-", "<C-x>")
 
 --Delete a word backwards
 -- keymap.set("n", "dw", "vb_d")
-keymap.set("n", "<C-a>", "gg<S-v>G")
+keymap("n", "<C-a>", "gg<S-v>G")
 
 --Jumplist
-keymap.set("n", "<C-m>", "<C-i>", opts)
+keymap("n", "<C-m>", "<C-i>", opts)
 
 --New Tab
-keymap.set("n", "te", ":tabedit")
-keymap.set("n", "<tab>", ":tabnext<Return>", opts)
-keymap.set("n", "<S-tab>", ":tabprev<Return>", opts)
+keymap("n", "<Leader>te", ":tabedit<CR>", opts)
+keymap("n", "<Tab>", ":tabnext<CR>", opts)
+keymap("n", "<S-Tab>", ":tabprev<CR>", opts)
 
 --Split window
-keymap.set("n", "ss", ":split<Return>", opts)
-keymap.set("n", "sv", ":vsplit<Return>", opts)
+keymap("n", "ss", ":split<CR>", opts)
+keymap("n", "sv", ":vsplit<CR>", opts)
+
 -- Move window
-keymap.set("n", "<C-h>", "<C-w>h")
-keymap.set("n", "<C-j>", "<C-w>j")
-keymap.set("n", "<C-k>", "<C-w>k")
-keymap.set("n", "<C-l>", "<C-w>l")
+keymap("n", "<C-h>", "<C-w>h", opts)
+keymap("n", "<C-j>", "<C-w>j", opts)
+keymap("n", "<C-k>", "<C-w>k", opts)
+keymap("n", "<C-l>", "<C-w>l", opts)
 
 -- Resize window
-keymap.set("n", "<C-w><left>", "<C-w><")
-keymap.set("n", "<C-w><right>", "<C-w>>")
-keymap.set("n", "<C-w><up>", "<C-w>+")
-keymap.set("n", "<C-w><down>", "<C-w>-")
+keymap("n", "<C-w><Left>", "<C-w><", opts)
+keymap("n", "<C-w><Right>", "<C-w>>", opts)
+keymap("n", "<C-w><Up>", "<C-w>+", opts)
+keymap("n", "<C-w><Down>", "<C-w>-", opts)
+
 
 -- Diagnostics
-keymap.set("n", "<C-p>", function()
+keymap("n", "<C-p>", function()
   vim.diagnostic.goto_next()
 end, opts)
