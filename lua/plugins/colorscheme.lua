@@ -22,7 +22,7 @@ local colorschemes = {
     opts = {},
     config = function(_, opts)
       require("tokyodark").setup(opts)
-      vim.cmd([[colorscheme tokyodark]])
+      -- vim.cmd([[colorscheme tokyodark]])
     end,
   },
   {
@@ -30,6 +30,18 @@ local colorschemes = {
     name = "moonfly",
     lazy = false,
     priority = 1000,
+  },
+  {
+    "2nthony/vitesse.nvim",
+    dependencies = {
+      "tjdevries/colorbuddy.nvim",
+    },
+    config = function()
+      require("vitesse").setup({
+        transparent_background = true,
+        transparent_float_background = true,
+      })
+    end,
   },
 }
 

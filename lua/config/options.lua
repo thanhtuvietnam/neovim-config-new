@@ -23,8 +23,8 @@ opt.wrap = true
 opt.backspace = { "start", "eol", "indent" }
 opt.path:append({ "**" }) -- Finding files - Search down into subfolders
 opt.wildignore:append({ "*/node_modules/*" })
-opt.splitbelow = true     -- Put new windows below current
-opt.splitright = true     -- Put new windows right of current
+opt.splitbelow = true -- Put new windows below current
+opt.splitright = true -- Put new windows right of current
 opt.splitkeep = "cursor"
 opt.relativenumber = false
 
@@ -33,10 +33,12 @@ vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Terminal
--- vim.cmd([[
---   autocmd TermOpen * setlocal winblend=20
---   " autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
--- ]])
+vim.cmd([[
+  autocmd TermOpen * setlocal winblend=20
+  autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
+]])
+-- vim.opt.winblend = 0
+-- vim.opt.pumblend = 0
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append({ "r" })
@@ -70,7 +72,6 @@ vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#D4D4D4", bg = "NONE" })
 -- })
 --
 --
-
 
 vim.o.updatetime = 250
 -- vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])

@@ -51,14 +51,14 @@ return {
         signature = { enabled = false },
       }
 
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "markdown",
-        callback = function(event)
-          vim.schedule(function()
-            require("noice.text.markdown").keys(event.buf)
-          end)
-        end,
-      })
+      -- vim.api.nvim_create_autocmd("FileType", {
+      --   pattern = "markdown",
+      --   callback = function(event)
+      --     vim.schedule(function()
+      --       require("noice.text.markdown").keys(event.buf)
+      --     end)
+      --   end,
+      -- })
 
       -- Tùy chỉnh thông báo cho Lazy.nvim
       opts.routes = vim.list_extend(opts.routes or {}, {

@@ -11,7 +11,7 @@ return {
       -- Config hover
       vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 
-      -- Thiết lập handler cho signature help
+      -- Thiết lập handler cho signatre help
       vim.lsp.handlers["textDocument/signatureHelp"] =
         vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
       ---@class PluginLspOpts
@@ -131,6 +131,18 @@ return {
       -- CSS
       lspconfig.cssls.setup({
         capabilities = capabilities,
+        css = {
+          validate = true,
+          lint = { unknownAtRules = "ignore" },
+        },
+        scss = {
+          validate = true,
+          lint = { unknownAtRules = "ignore" },
+        },
+        less = {
+          validate = true,
+          lint = { unknownAtRules = "ignore" },
+        },
       })
       -- Tailwind CSS
       lspconfig.tailwindcss.setup({
