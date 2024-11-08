@@ -1,5 +1,6 @@
-return {
-  -- Nvim-cmp
+-- return {
+local completion = {
+  --   -- Nvim-cmp
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
@@ -39,7 +40,7 @@ return {
             ellipsis_char = "...",
             before = function(entry, vim_item)
               vim_item.menu = ({
-                copilot = "[Copilot]",
+                emoji = "[Emoji]",
                 nvim_lsp = "[LSP]",
                 luasnip = "[Snippet]",
                 buffer = "[Buffer]",
@@ -56,7 +57,7 @@ return {
         mapping = cmp.mapping.preset.insert({
           ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
+          -- ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
           ["<Tab>"] = cmp.mapping(function(fallback)
@@ -90,8 +91,6 @@ return {
       })
     end,
   },
-
-  -- LuaSnip
   {
     "L3MON4D3/LuaSnip",
     dependencies = { "rafamadriz/friendly-snippets" },
@@ -126,3 +125,5 @@ return {
     end,
   },
 }
+
+return completion

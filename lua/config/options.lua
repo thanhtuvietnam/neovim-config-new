@@ -68,6 +68,9 @@ vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#D4D4D4", bg = "NONE" })
 --   virtual_text = false,
 --   float = { border = "rounded" },
 -- })
+--
+--
+
 
 vim.o.updatetime = 250
 -- vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])

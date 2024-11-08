@@ -8,26 +8,73 @@ return {
       { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
     build = "make tiktoken",
-    opts = {
-      debug = true, -- Enable debugging
-      -- See Configuration section for rest
-    },
-    -- See Commands section for default commands if you want to lazy load on them
+    opts = function()
+      local user = vim.env.USER or "User"
+      user = user:sub(1, 1):upper() .. user:sub(2)
+      return {
+        auto_insert_mode = true,
+        show_help = true,
+        question_header = "  " .. user .. " ",
+        answer_header = "  Copilot ",
+        window = {
+          width = 0.4,
+        },
+        selection = function(source)
+          local select = require("CopilotChat.select")
+          return select.visual(source) or select.buffer(source)
+        end,
+      }
+    end,
   },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
-    event = "InsertEnter",
-    config = function()
-      require("copilot").setup({})
-    end,
+    build = ":Copilot auth",
+    opts = {
+      suggestion = { enabled = true },
+      panel = { enabled = true },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+    },
   },
+  -- {
+  --   "nvim-cmp",
+  --   dependencies = {
+  --     {
+  --       "zbirenbaum/copilot-cmp",
+  --       dependencies = "copilot.lua",
+  --       opts = {},
+  --       config = function(_, opts)
+  --         local copilot_cmp = require("copilot_cmp")
+  --         copilot_cmp.setup(opts)
+  --         -- attach cmp source whenever copilot attaches
+  --         -- fixes lazy-loading issues with the copilot cmp source
+  --         LazyVim.lsp.on_attach(function(client)
+  --           copilot_cmp._on_insert_enter({})
+  --         end, "copilot")
+  --       end,
+  --     },
+  --   },
+  --   ---@param opts cmp.ConfigSchema
+  --   opts = function(_, opts)
+  --     table.insert(opts.sources, 1, {
+  --       name = "copilot",
+  --       group_index = 1,
+  --       priority = 100,
+  --     })
+  --   end,
+  -- },
   {
-    "zbirenbaum/copilot-cmp",
-    config = function()
-      require("copilot_cmp").setup({
-        suggestion = { enabled = false },
-        panel = { enabled = false },
+    "folke/edgy.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.right = opts.right or {}
+      table.insert(opts.right, {
+        ft = "copilot-chat",
+        title = "Copilot Chat",
+        size = { width = 50 },
       })
     end,
   },

@@ -1,149 +1,4 @@
 return {
-  --tools
-  {
-    "williamboman/mason.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-    },
-    config = function()
-      require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = {
-          --old
-          -- "tsserver",
-          "eslint",
-          "html",
-          "cssls",
-          "tailwindcss",
-          "emmet_ls",
-
-          "stylua",
-          "selene",
-          "luacheck",
-          "shellcheck",
-          "shfmt",
-          "tailwindcss-language-server",
-          -- "typescript-language-server",
-          "css-lsp",
-        },
-        automatic_installation = true,
-      })
-      --LSP server
-      local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      -- TypeScript/JavaScript
-      -- lspconfig.tsserver.setup({
-      --   capabilities = capabilities,
-      --   init_options = {
-      --     preferences = {
-      --       disableSuggestions = false,
-      --     },
-      --   },
-      -- })
-      -- ESLint
-      lspconfig.eslint.setup({
-        capabilities = capabilities,
-      })
-
-      -- HTML
-      lspconfig.html.setup({
-        capabilities = capabilities,
-        filetypes = {
-          "templ",
-          "html",
-          "css",
-          "javascriptreact",
-          "typescriptreact",
-          "javascript",
-          "typescript",
-          "jsx",
-          "tsx",
-        },
-      })
-      -- CSS
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
-      })
-
-      -- Tailwind CSS
-      lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
-        settings = {
-          tailwindCsSS = {
-            experimental = {
-              classRegex = {
-                { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
-              },
-            },
-          },
-        },
-        filetypes = {
-          "templ",
-          "html",
-          "css",
-          "javascriptreact",
-          "typescriptreact",
-          "javascript",
-          "typescript",
-          "jsx",
-          "tsx",
-        },
-        root_dir = require("lspconfig").util.root_pattern(
-          "tailwind.config.js",
-          "tailwind.config.cjs",
-          "tailwind.config.mjs",
-          "tailwind.config.ts",
-          "postcss.config.js",
-          "postcss.config.cjs",
-          "postcss.config.mjs",
-          "postcss.config.ts",
-          "package.json",
-          "node_modules",
-          ".git"
-        ),
-      })
-      lspconfig.emmet_ls.setup({
-        capabilities = capabilities,
-        filetypes = {
-          "templ",
-          "html",
-          "typescriptreact",
-          "javascriptreact",
-          "css",
-          "sass",
-          "scss",
-          "less",
-          "jsx",
-          "tsx",
-          "markdown",
-          "javascript",
-          "typescript",
-        },
-      })
-
-      require("lspconfig").clangd.setup({
-        cmd = {
-          "clangd",
-          "--background-index",
-          "--pch-storage=memory",
-          "--all-scopes-completion",
-          "--pretty",
-          "--header-insertion=never",
-          "-j=4",
-          "--inlay-hints",
-          "--header-insertion-decorators",
-          "--function-arg-placeholders",
-          "--completion-style=detailed",
-        },
-        filetypes = { "c", "cpp", "objc", "objcpp" },
-        root_dir = require("lspconfig").util.root_pattern("src"),
-        init_option = { fallbackFlags = { "-std=c++2a" } },
-        capabilities = capabilities,
-      })
-    end,
-  },
   -- lsp servers
   {
     "neovim/nvim-lspconfig",
@@ -158,8 +13,9 @@ return {
 
       -- Thiết lập handler cho signature help
       vim.lsp.handlers["textDocument/signatureHelp"] =
-          vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
+        vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
       ---@class PluginLspOpts
+      ---
       local ret = {
         -- options for vim.diagnostic.config()
         ---@type vim.diagnostic.Opts
@@ -168,14 +24,6 @@ return {
           update_in_insert = false,
           virtual_text = false,
           float = { border = "rounded" },
-          -- virtual_text = {
-          --   spacing = 4,
-          --   source = "if_many",
-          --   prefix = "●",
-          --   -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
-          --   -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
-          --   -- prefix = "icons",
-          -- },
           severity_sort = true,
           signs = {
             text = {
@@ -237,7 +85,7 @@ return {
                   checkThirdParty = false,
                 },
                 codeLens = {
-                  enable = true,
+                  enable = false,
                 },
                 completion = {
                   callSnippet = "Replace",
@@ -257,22 +105,111 @@ return {
             },
           },
         },
-
-        -- you can do any additional lsp server setup here
-        -- return true if you don't want this server to be setup with lspconfig
-        ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-        setup = {
-          -- example to setup with typescript.nvim
-          -- tsserver = function(_, opts)
-          --   require("typescript").setup({ server = opts })
-          --   return true
-          -- end,
-          -- Specify * to use this function as a fallback for any server
-          -- ["*"] = function(server, opts) end,
-        },
       }
+      --LSP server
+      local lspconfig = require("lspconfig")
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+      })
+
+      -- HTML
+      lspconfig.html.setup({
+        capabilities = capabilities,
+        filetypes = {
+          "templ",
+          "html",
+          "css",
+          "javascriptreact",
+          "typescriptreact",
+          "javascript",
+          "typescript",
+          "jsx",
+          "tsx",
+        },
+      })
+      -- CSS
+      lspconfig.cssls.setup({
+        capabilities = capabilities,
+      })
+      -- Tailwind CSS
+      lspconfig.tailwindcss.setup({
+        capabilities = capabilities,
+        settings = {
+          tailwindCsSS = {
+            experimental = {
+              classRegex = {
+                { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
+              },
+            },
+          },
+        },
+        filetypes = {
+          "templ",
+          "html",
+          "css",
+          "javascriptreact",
+          "typescriptreact",
+          "javascript",
+          "typescript",
+          "jsx",
+          "tsx",
+        },
+        root_dir = require("lspconfig").util.root_pattern(
+          "tailwind.config.js",
+          "tailwind.config.cjs",
+          "tailwind.config.mjs",
+          "tailwind.config.ts",
+          "postcss.config.js",
+          "postcss.config.cjs",
+          "postcss.config.mjs",
+          "postcss.config.ts",
+          "package.json",
+          "node_modules",
+          ".git"
+        ),
+      })
+      lspconfig.emmet_ls.setup({
+        capabilities = capabilities,
+        filetypes = {
+          "templ",
+          "html",
+          "typescriptreact",
+          "javascriptreact",
+          "css",
+          "sass",
+          "scss",
+          "less",
+          "jsx",
+          "tsx",
+          "markdown",
+          "javascript",
+          "typescript",
+        },
+      })
+      require("lspconfig").clangd.setup({
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--pch-storage=memory",
+          "--all-scopes-completion",
+          "--pretty",
+          "--header-insertion=never",
+          "-j=4",
+          "--inlay-hints",
+          "--header-insertion-decorators",
+          "--function-arg-placeholders",
+          "--completion-style=detailed",
+        },
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+        root_dir = require("lspconfig").util.root_pattern("src"),
+        init_option = { fallbackFlags = { "-std=c++2a" } },
+        capabilities = capabilities,
+      })
+
       return ret
     end,
+
     ---@param opts PluginLspOpts
     config = function(_, opts)
       -- setup autoformat
@@ -304,9 +241,9 @@ return {
         if opts.inlay_hints.enabled then
           LazyVim.lsp.on_supports_method("textDocument/inlayHint", function(client, buffer)
             if
-                vim.api.nvim_buf_is_valid(buffer)
-                and vim.bo[buffer].buftype == ""
-                and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
+              vim.api.nvim_buf_is_valid(buffer)
+              and vim.bo[buffer].buftype == ""
+              and not vim.tbl_contains(opts.inlay_hints.exclude, vim.bo[buffer].filetype)
             then
               vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
             end
@@ -327,14 +264,14 @@ return {
 
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
         opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-            or function(diagnostic)
-              local icons = LazyVim.config.icons.diagnostics
-              for d, icon in pairs(icons) do
-                if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-                  return icon
-                end
+          or function(diagnostic)
+            local icons = LazyVim.config.icons.diagnostics
+            for d, icon in pairs(icons) do
+              if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                return icon
               end
             end
+          end
       end
 
       vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
