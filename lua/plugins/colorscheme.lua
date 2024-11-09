@@ -19,11 +19,13 @@ local colorschemes = {
   },
   {
     "tiagovla/tokyodark.nvim",
-    opts = {},
     config = function(_, opts)
       require("tokyodark").setup(opts)
       -- vim.cmd([[colorscheme tokyodark]])
     end,
+    opts = {
+      transparent_background = true,
+    },
   },
   {
     "bluz71/vim-moonfly-colors",
