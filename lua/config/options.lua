@@ -33,10 +33,10 @@ vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
 
 -- Terminal
-vim.cmd([[
-  autocmd TermOpen * setlocal winblend=20
-  autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
-]])
+-- vim.cmd([[
+--   autocmd TermOpen * setlocal winblend=20
+--   autocmd TermOpen * setlocal winhighlight=Normal:NormalNC
+-- ]])
 -- vim.opt.winblend = 0
 -- vim.opt.pumblend = 0
 

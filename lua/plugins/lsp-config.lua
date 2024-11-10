@@ -73,49 +73,150 @@ return {
         -- LSP Server Settings
         ---@type lspconfig.options
         servers = {
-          lua_ls = {
-            -- mason = false, -- set to false if you don't want this server to be installed with mason
-            -- Use this to add any additional keymaps
-            -- for specific lsp servers
-            -- ---@type LazyKeysSpec[]
-            -- keys = {},
-            settings = {
-              Lua = {
-                workspace = {
-                  checkThirdParty = false,
-                },
-                codeLens = {
-                  enable = false,
-                },
-                completion = {
-                  callSnippet = "Replace",
-                },
-                doc = {
-                  privateName = { "^_" },
-                },
-                hint = {
-                  enable = true,
-                  setType = false,
-                  paramType = true,
-                  paramName = "Disable",
-                  semicolon = "Disable",
-                  arrayIndex = "Disable",
-                },
-              },
-            },
-          },
+
+          -- lua_ls = {
+          --   -- mason = false, -- set to false if you don't want this server to be installed with mason
+          --   -- Use this to add any additional keymaps
+          --   -- for specific lsp servers
+          --   -- ---@type LazyKeysSpec[]
+          --   -- keys = {},
+          --   settings = {
+          --     Lua = {
+          --       workspace = {
+          --         checkThirdParty = false,
+          --       },
+          --       codeLens = {
+          --         enable = false,
+          --       },
+          --       completion = {
+          --         callSnippet = "Replace",
+          --       },
+          --       doc = {
+          --         privateName = { "^_" },
+          --       },
+          --       hint = {
+          --         enable = true,
+          --         setType = false,
+          --         paramType = true,
+          --         paramName = "Disable",
+          --         semicolon = "Disable",
+          --         arrayIndex = "Disable",
+          --       },
+          --     },
+          --   },
+          -- },
         },
+        setup = {},
       }
       --LSP server
       local lspconfig = require("lspconfig")
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+      local capabilities2 = vim.lsp.protocol.make_client_capabilities()
+      capabilities2.textDocument.completion.completionItem.snippetSupport = true
+
+      --eslint
       lspconfig.eslint.setup({
-        capabilities = capabilities,
+        settings = {
+          validate = "on",
+          packageManager = nil,
+          useESLintClass = false,
+          experimental = {
+            useFlatConfig = false,
+          },
+          codeActionOnSave = {
+            enable = false,
+            mode = "all",
+          },
+          format = true,
+          quiet = false,
+          onIgnoredFiles = "off",
+          rulesCustomizations = {},
+          run = "onType",
+          problems = {
+            shortenToSingleLine = false,
+          },
+          -- nodePath configures the directory in which the eslint server should start its node_modules resolution.
+          -- This path is relative to the workspace folder (root dir) of the server instance.
+          nodePath = "",
+          -- use the workspace folder location or the file location (if no workspace folder is open) as the working directory
+          workingDirectory = { mode = "location" },
+          codeAction = {
+            disableRuleComment = {
+              enable = true,
+              location = "separateLine",
+            },
+            showDocumentation = {
+              enable = true,
+            },
+          },
+        },
+      })
+      --luals
+      lspconfig.lua_ls.setup({
+        on_init = function(client)
+          if client.workspace_folders then
+            local path = client.workspace_folders[1].name
+            if vim.uv.fs_stat(path .. "/.luarc.json") or vim.uv.fs_stat(path .. "/.luarc.jsonc") then
+              return
+            end
+          end
+
+          client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+            runtime = {
+              -- Tell the language server which version of Lua you're using
+              -- (most likely LuaJIT in the case of Neovim)
+              version = "LuaJIT",
+            },
+            -- Make the server aware of Neovim runtime files
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME,
+                -- Depending on the usage, you might want to add additional paths here.
+                -- "${3rd}/luv/library"
+                -- "${3rd}/busted/library",
+              },
+              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
+              -- library = vim.api.nvim_get_runtime_file("", true)
+            },
+          })
+        end,
+        settings = {
+          Lua = {
+            workspace = {
+              checkThirdParty = false,
+            },
+            codeLens = {
+              enable = false,
+            },
+            completion = {
+              callSnippet = "Replace",
+            },
+            doc = {
+              privateName = { "^_" },
+            },
+            hint = {
+              enable = true,
+              setType = false,
+              paramType = true,
+              paramName = "Disable",
+              semicolon = "Disable",
+              arrayIndex = "Disable",
+            },
+          },
+        },
       })
 
       -- HTML
       lspconfig.html.setup({
-        capabilities = capabilities,
+        capabilities = capabilities2,
+        configurationSection = { "html", "css", "javascript" },
+        embeddedLanguages = {
+          css = true,
+          javascript = true,
+        },
+        provideFormatter = true,
         filetypes = {
           "templ",
           "html",
@@ -128,32 +229,53 @@ return {
           "tsx",
         },
       })
-      -- CSS
+
+      --Css
       lspconfig.cssls.setup({
         capabilities = capabilities,
-        css = {
-          validate = true,
-          lint = { unknownAtRules = "ignore" },
-        },
-        scss = {
-          validate = true,
-          lint = { unknownAtRules = "ignore" },
-        },
-        less = {
-          validate = true,
-          lint = { unknownAtRules = "ignore" },
+        settings = {
+          css = {
+            validate = true,
+            lint = {
+              unknownAtRules = "ignore",
+            },
+          },
+          scss = {
+            validate = true,
+            lint = { unknownAtRules = "ignore" },
+          },
+          less = {
+            validate = true,
+            lint = { unknownAtRules = "ignore" },
+          },
         },
       })
+
       -- Tailwind CSS
       lspconfig.tailwindcss.setup({
         capabilities = capabilities,
         settings = {
+          validate = true,
+
+          classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
+
           tailwindCsSS = {
             experimental = {
               classRegex = {
                 { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
               },
             },
+          },
+
+          lint = {
+            cssConflict = "warning",
+            invalidApply = "error",
+            invalidConfigPath = "error",
+            invalidScreen = "error",
+            invalidTailwindDirective = "error",
+            invalidVariant = "error",
+            recommendedVariantOrder = "warning",
+            standard = "warning",
           },
         },
         filetypes = {
@@ -181,6 +303,8 @@ return {
           ".git"
         ),
       })
+
+      --emmet_ls
       lspconfig.emmet_ls.setup({
         capabilities = capabilities,
         filetypes = {
@@ -199,7 +323,9 @@ return {
           "typescript",
         },
       })
-      require("lspconfig").clangd.setup({
+
+      --C++
+      lspconfig.clangd.setup({
         cmd = {
           "clangd",
           "--background-index",
