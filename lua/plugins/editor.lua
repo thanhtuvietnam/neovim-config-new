@@ -80,4 +80,22 @@ return {
       })
     end,
   },
+  -- {
+  --   "Pocco81/auto-save.nvim",
+  --   enabled = false,
+  --   config = function()
+  --     require("auto-save").setup({
+  --       -- your config goes here
+  --       -- or just leave it empty :)
+  --       execution_message = {
+  --         message = function() -- message to print on save
+  --           return "Save" -- Trả về chuỗi rỗng để tắt thông báo
+  --         end,
+  --         dim = 0, -- Không làm mờ màu của `message`
+  --         cleaning_interval = nil, -- Không cần làm sạch MsgArea
+  --       },
+  --       debounce_delay = 0, -- Không có độ trễ
+  --     })
+  --   end,
+  -- },
 }

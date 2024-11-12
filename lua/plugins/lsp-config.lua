@@ -73,6 +73,25 @@ return {
         -- LSP Server Settings
         ---@type lspconfig.options
         servers = {
+          cssls = {
+            settings = {
+              css = {
+                validate = true,
+                lint = {
+                  unknownAtRules = "ignore",
+                },
+              },
+              scss = {
+                validate = true,
+                lint = { unknownAtRules = "ignore" },
+              },
+              less = {
+                validate = true,
+                lint = { unknownAtRules = "ignore" },
+              },
+            },
+          },
+          -----------------
 
           -- lua_ls = {
           --   -- mason = false, -- set to false if you don't want this server to be installed with mason
@@ -227,27 +246,6 @@ return {
           "typescript",
           "jsx",
           "tsx",
-        },
-      })
-
-      --Css
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
-        settings = {
-          css = {
-            validate = true,
-            lint = {
-              unknownAtRules = "ignore",
-            },
-          },
-          scss = {
-            validate = true,
-            lint = { unknownAtRules = "ignore" },
-          },
-          less = {
-            validate = true,
-            lint = { unknownAtRules = "ignore" },
-          },
         },
       })
 

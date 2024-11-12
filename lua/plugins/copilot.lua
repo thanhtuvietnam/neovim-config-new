@@ -30,8 +30,17 @@ return {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     build = ":Copilot auth",
+    event = "InsertEnter",
     opts = {
-      suggestion = { enabled = true },
+      suggestion = {
+        enabled = not vim.g.ai_cmp,
+        auto_trigger = true,
+        keymap = {
+          accept = true, -- handled by nvim-cmp / blink.cmp
+          next = "<M-]>",
+          prev = "<M-[>",
+        },
+      },
       panel = { enabled = true },
       filetypes = {
         markdown = true,
@@ -39,6 +48,7 @@ return {
       },
     },
   },
+
   -- {
   --   "nvim-cmp",
   --   dependencies = {
@@ -66,16 +76,16 @@ return {
   --     })
   --   end,
   -- },
-  {
-    "folke/edgy.nvim",
-    optional = true,
-    opts = function(_, opts)
-      opts.right = opts.right or {}
-      table.insert(opts.right, {
-        ft = "copilot-chat",
-        title = "Copilot Chat",
-        size = { width = 50 },
-      })
-    end,
-  },
+  -- {
+  --   "folke/edgy.nvim",
+  --   optional = true,
+  --   opts = function(_, opts)
+  --     opts.right = opts.right or {}
+  --     table.insert(opts.right, {
+  --       ft = "copilot-chat",
+  --       title = "Copilot Chat",
+  --       size = { width = 50 },
+  --     })
+  --   end,
+  -- },
 }
