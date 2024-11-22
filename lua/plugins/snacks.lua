@@ -1,3 +1,4 @@
+local Snacks = require("snacks")
 return {
   {
 

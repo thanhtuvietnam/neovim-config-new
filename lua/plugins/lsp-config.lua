@@ -127,12 +127,16 @@ return {
         },
         setup = {},
       }
+
       --LSP server
       local lspconfig = require("lspconfig")
-      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+      -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
       local capabilities2 = vim.lsp.protocol.make_client_capabilities()
       capabilities2.textDocument.completion.completionItem.snippetSupport = true
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
       --eslint
       lspconfig.eslint.setup({
@@ -171,6 +175,7 @@ return {
           },
         },
       })
+
       --luals
       lspconfig.lua_ls.setup({
         on_init = function(client)
@@ -251,7 +256,7 @@ return {
 
       -- Tailwind CSS
       lspconfig.tailwindcss.setup({
-        capabilities = capabilities,
+        -- capabilities = capabilities,
         settings = {
           validate = true,
 
@@ -304,7 +309,7 @@ return {
 
       --emmet_ls
       lspconfig.emmet_ls.setup({
-        capabilities = capabilities,
+        -- capabilities = capabilities,
         filetypes = {
           "templ",
           "html",
@@ -324,6 +329,10 @@ return {
 
       --C++
       lspconfig.clangd.setup({
+        filetypes = { "c", "cpp", "objc", "objcpp" },
+        -- capabilities = capabilities,
+        root_dir = require("lspconfig").util.root_pattern("src"),
+        init_option = { fallbackFlags = { "-std=c++2a" } },
         cmd = {
           "clangd",
           "--background-index",
@@ -337,10 +346,6 @@ return {
           "--function-arg-placeholders",
           "--completion-style=detailed",
         },
-        filetypes = { "c", "cpp", "objc", "objcpp" },
-        root_dir = require("lspconfig").util.root_pattern("src"),
-        init_option = { fallbackFlags = { "-std=c++2a" } },
-        capabilities = capabilities,
       })
 
       return ret
@@ -536,4 +541,15 @@ return {
       },
     },
   },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   dependencies = { "saghen/blink.cmp" },
+  --   config = function(_, opts)
+  --     local lspconfig = require("lspconfig")
+  --     for server, config in pairs(opts.servers or {}) do
+  --       config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+  --       lspconfig[server].setup(config)
+  --     end
+  --   end,
+  -- },
 }

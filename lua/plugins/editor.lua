@@ -81,6 +81,13 @@ return {
     end,
   },
   -- {
+  --   "adelarsq/image_preview.nvim",
+  --   event = "VeryLazy",
+  --   config = function()
+  --     require("image_preview").setup()
+  --   end,
+  -- },
+  -- {
   --   "Pocco81/auto-save.nvim",
   --   enabled = false,
   --   config = function()

@@ -1,16 +1,18 @@
 local colorschemes = {
-  -- {
-  --   "craftzdog/solarized-osaka.nvim",
-  --   lazy = true,
-  --   -- priority = 1000,
-  --   opts = {
-  --     transparent = false,
-  --   },
-  -- },
   {
-    "folke/tokyonight.nvim",
+    "craftzdog/solarized-osaka.nvim",
+    lazy = true,
+    -- priority = 1000,
     opts = {
       transparent = false,
+    },
+  },
+  {
+    "folke/tokyonight.nvim",
+    priority = 1000,
+    opts = {
+      -- transparent = false,
+      -- transparent = true,
       styles = {
         sidebars = "transparent",
         floats = "transparent",
@@ -21,7 +23,7 @@ local colorschemes = {
     "tiagovla/tokyodark.nvim",
     config = function(_, opts)
       require("tokyodark").setup(opts)
-      -- vim.cmd([[colorscheme tokyodark]])
+      vim.cmd([[colorscheme tokyodark]])
     end,
     opts = {
       transparent_background = true,
