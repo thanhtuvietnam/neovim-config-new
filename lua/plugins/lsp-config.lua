@@ -1,4 +1,4 @@
-return {
+local lspconfig = {
   -- lsp servers
   {
     "neovim/nvim-lspconfig",
@@ -53,8 +53,7 @@ return {
           enabled = true,
         },
 
-        -- add any global capabilities her
-
+        -- add any global capabilities here
         capabilities = {
           workspace = {
             fileOperations = {
@@ -91,49 +90,12 @@ return {
               },
             },
           },
-          -----------------
-
-          -- lua_ls = {
-          --   -- mason = false, -- set to false if you don't want this server to be installed with mason
-          --   -- Use this to add any additional keymaps
-          --   -- for specific lsp servers
-          --   -- ---@type LazyKeysSpec[]
-          --   -- keys = {},
-          --   settings = {
-          --     Lua = {
-          --       workspace = {
-          --         checkThirdParty = false,
-          --       },
-          --       codeLens = {
-          --         enable = false,
-          --       },
-          --       completion = {
-          --         callSnippet = "Replace",
-          --       },
-          --       doc = {
-          --         privateName = { "^_" },
-          --       },
-          --       hint = {
-          --         enable = true,
-          --         setType = false,
-          --         paramType = true,
-          --         paramName = "Disable",
-          --         semicolon = "Disable",
-          --         arrayIndex = "Disable",
-          --       },
-          --     },
-          --   },
-          -- },
         },
         setup = {},
       }
 
       --LSP server
       local lspconfig = require("lspconfig")
-      -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-      local capabilities2 = vim.lsp.protocol.make_client_capabilities()
-      capabilities2.textDocument.completion.completionItem.snippetSupport = true
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
@@ -159,10 +121,7 @@ return {
           problems = {
             shortenToSingleLine = false,
           },
-          -- nodePath configures the directory in which the eslint server should start its node_modules resolution.
-          -- This path is relative to the workspace folder (root dir) of the server instance.
           nodePath = "",
-          -- use the workspace folder location or the file location (if no workspace folder is open) as the working directory
           workingDirectory = { mode = "location" },
           codeAction = {
             disableRuleComment = {
@@ -188,21 +147,13 @@ return {
 
           client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
             runtime = {
-              -- Tell the language server which version of Lua you're using
-              -- (most likely LuaJIT in the case of Neovim)
               version = "LuaJIT",
             },
-            -- Make the server aware of Neovim runtime files
             workspace = {
               checkThirdParty = false,
               library = {
                 vim.env.VIMRUNTIME,
-                -- Depending on the usage, you might want to add additional paths here.
-                -- "${3rd}/luv/library"
-                -- "${3rd}/busted/library",
               },
-              -- or pull in all of 'runtimepath'. NOTE: this is a lot slower and will cause issues when working on your own configuration (see https://github.com/neovim/nvim-lspconfig/issues/3189)
-              -- library = vim.api.nvim_get_runtime_file("", true)
             },
           })
         end,
@@ -234,7 +185,7 @@ return {
 
       -- HTML
       lspconfig.html.setup({
-        capabilities = capabilities2,
+        capabilities = capabilities,
         configurationSection = { "html", "css", "javascript" },
         embeddedLanguages = {
           css = true,
@@ -256,20 +207,16 @@ return {
 
       -- Tailwind CSS
       lspconfig.tailwindcss.setup({
-        -- capabilities = capabilities,
         settings = {
           validate = true,
-
           classAttributes = { "class", "className", "class:list", "classList", "ngClass" },
-
-          tailwindCsSS = {
+          tailwindCss = {
             experimental = {
               classRegex = {
                 { "([\"'`][^\"'`]*.*?[\"'`])", "[\"'`]([^\"'`]*).*?[\"'`]" },
               },
             },
           },
-
           lint = {
             cssConflict = "warning",
             invalidApply = "error",
@@ -309,7 +256,6 @@ return {
 
       --emmet_ls
       lspconfig.emmet_ls.setup({
-        -- capabilities = capabilities,
         filetypes = {
           "templ",
           "html",
@@ -330,7 +276,6 @@ return {
       --C++
       lspconfig.clangd.setup({
         filetypes = { "c", "cpp", "objc", "objcpp" },
-        -- capabilities = capabilities,
         root_dir = require("lspconfig").util.root_pattern("src"),
         init_option = { fallbackFlags = { "-std=c++2a" } },
         cmd = {
@@ -363,8 +308,6 @@ return {
 
       LazyVim.lsp.setup()
       LazyVim.lsp.on_dynamic_capability(require("lazyvim.plugins.lsp.keymaps").on_attach)
-
-      -- LazyVim.lsp.words.setup(opts.document_highlight)
 
       -- diagnostics signs
       if vim.fn.has("nvim-0.10.0") == 0 then
@@ -541,15 +484,6 @@ return {
       },
     },
   },
-  -- {
-  --   "neovim/nvim-lspconfig",
-  --   dependencies = { "saghen/blink.cmp" },
-  --   config = function(_, opts)
-  --     local lspconfig = require("lspconfig")
-  --     for server, config in pairs(opts.servers or {}) do
-  --       config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
-  --       lspconfig[server].setup(config)
-  --     end
-  --   end,
-  -- },
 }
+
+return lspconfig

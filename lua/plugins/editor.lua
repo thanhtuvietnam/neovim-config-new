@@ -1,4 +1,4 @@
-return {
+local editor = {
   -- Neo-tree
   {
     "nvim-neo-tree/neo-tree.nvim",
@@ -80,29 +80,14 @@ return {
       })
     end,
   },
-  -- {
-  --   "adelarsq/image_preview.nvim",
-  --   event = "VeryLazy",
-  --   config = function()
-  --     require("image_preview").setup()
-  --   end,
-  -- },
-  -- {
-  --   "Pocco81/auto-save.nvim",
-  --   enabled = false,
-  --   config = function()
-  --     require("auto-save").setup({
-  --       -- your config goes here
-  --       -- or just leave it empty :)
-  --       execution_message = {
-  --         message = function() -- message to print on save
-  --           return "Save" -- Trả về chuỗi rỗng để tắt thông báo
-  --         end,
-  --         dim = 0, -- Không làm mờ màu của `message`
-  --         cleaning_interval = nil, -- Không cần làm sạch MsgArea
-  --       },
-  --       debounce_delay = 0, -- Không có độ trễ
-  --     })
-  --   end,
-  -- },
+  --Hot reload
+  {
+    "Zeioth/hot-reload.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    event = "BufEnter",
+    opts = {
+      patterns = { "lua/*", "lua/**/*" },
+    },
+  },
 }
+return editor

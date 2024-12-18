@@ -12,13 +12,14 @@ local colorschemes = {
     priority = 1000,
     opts = {
       -- transparent = false,
-      -- transparent = true,
+      transparent = true,
       styles = {
         sidebars = "transparent",
         floats = "transparent",
       },
     },
   },
+
   {
     "tiagovla/tokyodark.nvim",
     config = function(_, opts)

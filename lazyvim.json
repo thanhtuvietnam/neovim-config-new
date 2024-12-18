@@ -3,6 +3,7 @@
     "lazyvim.plugins.extras.ai.copilot",
     "lazyvim.plugins.extras.ai.copilot-chat",
     "lazyvim.plugins.extras.coding.luasnip",
+    "lazyvim.plugins.extras.coding.nvim-cmp",
     "lazyvim.plugins.extras.coding.yanky",
     "lazyvim.plugins.extras.editor.mini-files",
     "lazyvim.plugins.extras.editor.telescope",
@@ -15,12 +16,13 @@
     "lazyvim.plugins.extras.linting.eslint",
     "lazyvim.plugins.extras.ui.mini-animate",
     "lazyvim.plugins.extras.ui.mini-indentscope",
+    "lazyvim.plugins.extras.ui.smear-cursor",
     "lazyvim.plugins.extras.util.chezmoi",
     "lazyvim.plugins.extras.util.dot",
     "lazyvim.plugins.extras.util.mini-hipatterns"
   ],
   "news": {
-    "NEWS.md": "7429"
+    "NEWS.md": "10960"
   },
   "version": 7
 }

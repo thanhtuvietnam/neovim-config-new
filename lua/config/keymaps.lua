@@ -48,11 +48,13 @@ keymap("n", "<C-w><Up>", "<C-w>+", opts)
 keymap("n", "<C-w><Down>", "<C-w>-", opts)
 
 -- Diagnostics
+--
 keymap("n", "<C-p>", function()
   vim.diagnostic.goto_next()
 end, opts)
 
 -- Auto save
--- keymap("n", "<leader>n", ":ASToggle<CR>", {})
-
+keymap("n", "<C-n>", ":ASToggle<CR>", {})
+--
+--
 keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })

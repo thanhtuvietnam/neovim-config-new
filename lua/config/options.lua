@@ -73,6 +73,7 @@ vim.api.nvim_set_hl(0, "CmpItemKindUnit", { fg = "#D4D4D4", bg = "NONE" })
 --
 --
 
+vim.opt.termguicolors = true
 vim.o.updatetime = 250
 -- vim.cmd([[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]])
 -- vim.cmd([[autocmd! ColorScheme * highlight NormalFloat guibg=#1f2335 guifg=#abb2bf]])

@@ -1,4 +1,4 @@
-return {
+local copilot = {
   --copilot
   {
     "CopilotC-Nvim/CopilotChat.nvim",
@@ -68,3 +68,4 @@ return {
   --   end,
   -- },
 }
+return copilot

@@ -1,7 +1,8 @@
-return {
+local coding = {
   --toggle term
   {
     "akinsho/toggleterm.nvim",
+
     config = function()
       require("toggleterm").setup({
         size = 15,
@@ -42,3 +43,4 @@ return {
     end,
   },
 }
+return coding
